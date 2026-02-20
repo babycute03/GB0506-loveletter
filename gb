@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thư Gửi Gia Bảo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #b06d51;
+            --secondary: #985b42;
+            --bg: #fdf1e4;
+            --text: #4a3b32;
+        }
+
+        body {
+            margin: 0; padding: 0; min-height: 100vh;
+            display: flex; justify-content: center; align-items: center;
+            background: linear-gradient(135deg, #fdf1e4 0%, #f3e0d8 100%);
+            font-family: 'Lora', serif; color: var(--text);
+            overflow: hidden;
+        }
+
+        /* Lớp phủ mở đầu */
+        #overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--bg);
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 9999; transition: opacity 1s, visibility 1s; padding: 20px; text-align: center;
+        }
+
+        .warning-text {
+            max-width: 450px; font-size: 16px; color: #7a6a61;
+            margin-bottom: 30px; font-style: italic; line-height: 1.6;
+        }
+
+        .open-btn {
+            background-color: var(--primary); color: #fff; border: none;
+            padding: 15px 40px; font-size: 18px; font-family: 'Playfair Display', serif;
+            border-radius: 50px; cursor: pointer; transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(176, 109, 81, 0.3);
+        }
+
+        .open-btn:hover { transform: scale(1.05); background-color: var(--secondary); }
+
+        /* Khung thư */
+        .card-container {
+            padding: 20px; width: 90%; max-width: 700px;
+            opacity: 0; transform: translateY(30px); transition: all 1.2s ease;
+        }
+
+        .card {
+            background-color: #fcfaf8; border-radius: 15px;
+            padding: 50px 40px 30px 40px; position: relative;
+            box-shadow: 0 20px 50px rgba(138, 115, 102, 0.15);
+            min-height: 500px; display: flex; flex-direction: column;
+        }
+
+        .card::after {
+            content: ''; position: absolute; top: 20px; left: 20px; right: 20px; bottom: 20px;
+            border: 1px solid rgba(210, 180, 160, 0.4); border-radius: 10px; pointer-events: none;
+        }
+
+        .card-title {
+            font-family: 'Playfair Display', serif; font-size: 28px;
+            color: var(--primary); text-align: center; margin-bottom: 25px;
+        }
+
+        .card-content {
+            flex-grow: 1; font-size: 17px; line-height: 1.9; color: #5c4d44;
+            overflow-y: auto; padding-right: 15px; margin-bottom: 10px; z-index: 1;
+        }
+
+        .card-content::-webkit-scrollbar { width: 3px; }
+        .card-content::-webkit-scrollbar-thumb { background: #d8c3b8; border-radius: 10px; }
+
+        /* Trang nội dung */
+        .page { display: none; animation: fadeIn 0.8s ease forwards; }
+        .page.active { display: block; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Điều hướng */
+        .pagination {
+            display: flex; justify-content: space-between; align-items: center;
+            padding-top: 15px; border-top: 1px dashed rgba(176, 109, 81, 0.2); z-index: 1;
+        }
+
+        .nav-btn {
+            background: none; border: none; color: var(--primary);
+            font-family: 'Lora', serif; font-size: 15px; cursor: pointer; transition: 0.3s;
+            padding: 5px 15px;
+        }
+
+        .nav-btn:disabled { color: #d8c3b8; cursor: not-allowed; opacity: 0.5; }
+        .nav-btn:hover:not(:disabled) { font-weight: 600; color: var(--secondary); }
+
+        .page-num { font-size: 13px; font-style: italic; color: #a18e83; }
+
+        .signature { text-align: right; margin-top: 15px; font-style: italic; font-weight: 600; color: var(--primary); z-index: 1; }
+
+        .show-card { opacity: 1 !important; transform: translateY(0) !important; }
+    </style>
+</head>
+<body>
+
+    <div id="overlay">
+        <div class="warning-text">"Nội dung mang tính riêng tư. Hãy mở khi bạn đã sẵn sàng lắng nghe."</div>
+        <button class="open-btn" onclick="startLetter()">Mở thiệp</button>
+    </div>
+
+    <audio id="bg-music" loop>
+        <source src="videoplayback.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="card-container" id="mainCard">
+        <div class="card">
+            <h1 class="card-title">Gửi Gia Bảo,</h1>
+            
+            <div class="card-content" id="scrollArea">
+                
+                <div class="page active">
+                    <p>Đây là trang nội dung đầu tiên của bạn.</p>
+                    <p>Hãy thay dòng chữ này bằng lời nhắn của bạn sau khi deploy xong.</p>
+                </div>
+
+                <div class="page">
+                    <p>Nội dung trang 2...</p>
+                </div>
+
+                <div class="page">
+                    <p>Nội dung trang 3...</p>
+                </div>
+
+                <div class="page">
+                    <p>Nội dung trang 4...</p>
+                </div>
+
+                <div class="page">
+                    <p>Nội dung trang 5...</p>
+                </div>
+
+                <div class="page">
+                    <p>Nội dung trang 6...</p>
+                </div>
+
+                <div class="page">
+                    <p>Nội dung trang 7...</p>
+                </div>
+
+                <div class="page">
+                    <p>Nội dung trang 8...</p>
+                </div>
+
+                <div class="page">
+                    <p>Nội dung trang 9...</p>
+                </div>
+
+                <div class="page">
+                    <p>Nội dung trang 10 (Trang cuối)...</p>
+                </div>
+
+            </div>
+
+            <div class="pagination">
+                <button class="nav-btn" id="prevBtn" onclick="changePage(-1)">← Trước</button>
+                <span class="page-num" id="pageIndicator">1 / 10</span>
+                <button class="nav-btn" id="nextBtn" onclick="changePage(1)">Sau →</button>
+            </div>
+
+            <div class="signature">- sora -</div>
+        </div>
+    </div>
+
+    <script>
+        const audio = document.getElementById("bg-music");
+        const pages = document.querySelectorAll('.page');
+        const cardContainer = document.getElementById("mainCard");
+        const overlay = document.getElementById("overlay");
+        const scrollArea = document.getElementById('scrollArea');
+        let currentPage = 0;
+
+        function startLetter() {
+            audio.play().catch(e => console.log("Yêu cầu nhấn nút để phát nhạc."));
+            overlay.style.opacity = '0';
+            setTimeout(() => { overlay.style.visibility = 'hidden'; }, 1000);
+            cardContainer.classList.add("show-card");
+        }
+
+        function updateDisplay() {
+            pages.forEach((p, i) => p.classList.toggle('active', i === currentPage));
+            document.getElementById('pageIndicator').innerText = `${currentPage + 1} / ${pages.length}`;
+            document.getElementById('prevBtn').disabled = (currentPage === 0);
+            document.getElementById('nextBtn').disabled = (currentPage === pages.length - 1);
+            scrollArea.scrollTop = 0;
+        }
+
+        function changePage(step) {
+            currentPage += step;
+            updateDisplay();
+        }
+
+        updateDisplay();
+    </script>
+</body>
+</html>
