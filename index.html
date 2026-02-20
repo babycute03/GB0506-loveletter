@@ -21,7 +21,6 @@
             overflow: hidden;
         }
 
-        /* Lớp phủ mở đầu */
         #overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: var(--bg);
@@ -43,7 +42,6 @@
 
         .open-btn:hover { transform: scale(1.05); background-color: var(--secondary); }
 
-        /* Khung thư */
         .card-container {
             padding: 20px; width: 90%; max-width: 700px;
             opacity: 0; transform: translateY(30px); transition: all 1.2s ease;
@@ -53,7 +51,8 @@
             background-color: #fcfaf8; border-radius: 15px;
             padding: 50px 40px 30px 40px; position: relative;
             box-shadow: 0 20px 50px rgba(138, 115, 102, 0.15);
-            min-height: 500px; display: flex; flex-direction: column;
+            height: 550px; /* Cố định chiều cao card để thanh cuộn hoạt động ổn định */
+            display: flex; flex-direction: column;
         }
 
         .card::after {
@@ -64,39 +63,50 @@
         .card-title {
             font-family: 'Playfair Display', serif; font-size: 28px;
             color: var(--primary); text-align: center; margin-bottom: 25px;
+            flex-shrink: 0;
         }
 
+        /* Container chứa các trang */
         .card-content {
-            flex-grow: 1; font-size: 17px; line-height: 1.9; color: #5c4d44;
-            overflow-y: auto; padding-right: 15px; margin-bottom: 10px; z-index: 1;
+            flex-grow: 1;
+            position: relative;
+            overflow: hidden; /* Không cho container chính cuộn */
+            z-index: 1;
         }
 
-        /* --- TÙY CHỈNH SCROLL BAR --- */
-        .card-content::-webkit-scrollbar {
+        /* --- TÙY CHỈNH THANH CUỘN CHO TỪNG TRANG --- */
+        .page { 
+            display: none; 
+            height: 100%; /* Chiếm hết chiều cao card-content */
+            overflow-y: auto; /* Cho phép cuộn trên từng trang */
+            padding-right: 15px;
+            animation: fadeIn 0.8s ease forwards;
+        }
+
+        .page.active { display: block; }
+
+        /* Kiểu thanh cuộn cho mỗi trang */
+        .page::-webkit-scrollbar {
             width: 5px;
         }
-        .card-content::-webkit-scrollbar-track {
+        .page::-webkit-scrollbar-track {
             background: rgba(216, 195, 184, 0.1);
             border-radius: 10px;
         }
-        .card-content::-webkit-scrollbar-thumb {
+        .page::-webkit-scrollbar-thumb {
             background: #d8c3b8;
             border-radius: 10px;
         }
-        .card-content::-webkit-scrollbar-thumb:hover {
+        .page::-webkit-scrollbar-thumb:hover {
             background: var(--primary);
         }
 
-        /* Trang nội dung */
-        .page { display: none; animation: fadeIn 0.8s ease forwards; }
-        .page.active { display: block; }
-
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Điều hướng */
         .pagination {
             display: flex; justify-content: space-between; align-items: center;
-            padding-top: 15px; border-top: 1px dashed rgba(176, 109, 81, 0.2); z-index: 1;
+            padding-top: 15px; border-top: 1px dashed rgba(176, 109, 81, 0.2); 
+            z-index: 1; flex-shrink: 0;
         }
 
         .nav-btn {
@@ -110,7 +120,7 @@
 
         .page-num { font-size: 13px; font-style: italic; color: #a18e83; }
 
-        .signature { text-align: right; margin-top: 15px; font-style: italic; font-weight: 600; color: var(--primary); z-index: 1; }
+        .signature { text-align: right; margin-top: 15px; font-style: italic; font-weight: 600; color: var(--primary); z-index: 1; flex-shrink: 0; }
 
         .show-card { opacity: 1 !important; transform: translateY(0) !important; }
     </style>
@@ -130,70 +140,27 @@
         <div class="card">
             <h1 class="card-title"> Gửi Thiên Anh,</h1>
             
-            <div class="card-content" id="scrollArea">
+            <div class="card-content">
                 
                 <div class="page active">
                     <p>Đây là trang nội dung đầu tiên của bạn.</p>
-                    <p>Đầu tiên, mình muốn cảm ơn Thiên Anh vì đã mở lòng chia sẻ với mình câu chuyện về hành trình của bạn thời gian vừa rồi. Nói thật thì việc Thiên Anh gửi thư cho mình vượt quá mong đợi của mình, vì mình đã tự tay cắt đi sự mong chờ đó cũng 1 thời gian gần đây rồi. Nghĩ theo hướng lạc quan hơn thì mối quan hệ này vẫn có 1 chút tiến triển, nhĩ :> Thư khá dài nên mình sẽ viết tắt tên tụi mình là GB và TA nhá. 
-Thư đọc cũng khá là chill đi, có vài chỗ chắc là hơi cợt nhả, cũng hi vọng đâu đó bức thư này sẽ mang lại tiếng cười cho TA. Nhưng cảm xúc thì khá là nhiều, bạn có thể bị overwhelmmed nên là cứ từ từ mà đọc. 
-.</p>
+                    <p>Đầu tiên, mình muốn cảm ơn Thiên Anh vì đã mở lòng chia sẻ với mình câu chuyện về hành trình của bạn thời gian vừa rồi. Nói thật thì việc Thiên Anh gửi thư cho mình vượt quá mong đợi của mình, vì mình đã tự tay cắt đi sự mong chờ đó cũng 1 thời gian gần đây rồi. Nghĩ theo hướng lạc quan hơn thì mối quan hệ này vẫn có 1 chút tiến triển, nhĩ :> Thư khá dài nên mình sẽ viết tắt tên tụi mình là GB và TA nhá. Thư đọc cũng khá là chill đi, có vài chỗ chắc là hơi cợt nhả, cũng hi vọng đâu đó bức thư này sẽ mang lại tiếng cười cho TA. Nhưng cảm xúc thì khá là nhiều, bạn có thể bị overwhelmmed nên là cứ từ từ mà đọc.</p>
                 </div>
 
                 <div class="page">
-                    <p>Trong 1 năm vừa rồi, hành trình của mình khá dài, không biết bắt đầu từ đâu nữa, có thể là tháng 4 đi ha, 
-                        ngày tụi mình chia tay - khuya 4/4 sáng sớm 5/4. Trước khi chia tay, mình đã khóc rất nhiều, khóc mỗi đêm. 
-                        Mình khóc vì kiệt sức, khóc vì mệt mỏi, khóc vì bất lực. Mình thừa biết mối quan hệ tụi mình có vấn đề nhưng mình không thể giải thích thành lời, chỉ là trong lòng mình có 1 giọng nói lặp đi lặp lại mỗi ngày: Mối quan hệ này thực sự không ổn. Mình đã không biết bao nhiêu lần suy nghĩ về những lần tụi mình cãi nhau nhưng không giải quyết được vấn đề, không biết bao nhiêu lần nhìn TA luẩn quẩn trong cái vết thương chết dở kia, 2 đứa dần trở nên xa cách, những cuộc trò chuyện không còn vui vẻ hào hứng, và GB cảm nhận là mqh này sẽ vỡ nếu tiếp tục như này. Về bản thân mình lúc đó, mình focus hoàn toàn vào TA, mình không thể cảm nhận được bản thân mình thật sự muốn gì cần gì, 
-                        mình không muốn giao tiếp với mọi người, mình chỉ muốn học thật nhanh để về với TA, nhma như này nó ko healthy chút nào, đây không phải là Gia Bảo. Mình thực sự không muốn 1 cuộc sống như vậy, mình muốn cả 2 đứa cùng nhau phát triển, khám phá, ngắm nhìn thế giới cùng nhau, mình cũng mong muốn tụi mình sẽ lại là 2 cục tích cực như cách tụi mình va vào nhau trước đó. Và mình cũng cảm nhận được rằng nếu tiêu cực xâm chiếm 2 đứa như thế thì mqh sẽ càng ngày càng toxic, mình lại càng không muốn người mình yêu đau khổ mà 1 mình mình vui vẻ được. Trực giác của 1 người từng trải qua đổ vỡ nặng nề khiến Gbao không thể làm lơ cái cảm giác đó (vì trước đó cái kịch bản cũng gần giống vậy, ko hoàn toàn giống nhưng cái cảm giác nó giống đến đáng sợ) và thế là GB quyết định chia tay. Gbao đã nghĩ là Gbao coi TA là chốn mình yên để tìm về, nhưng không có ngược lại, vì TA đã từng nói, tình yêu của Gbao không thể chữa lành cho TA. À 1 cái nữa đó là việc TA không thể chấp nhận quá khứ của GB. Dù mình hiểu, TA đã rất cố gắng, nhưng ở thời điểm cả 2 đều mang quá nhiều tổn thương mà còn ở với nhau thì khá khó để mqh này có tương lai. Mình đã cảm thấy mình cần phải dừng lại lúc đó để thật sự tìm lại chính mình, để cả 2 có thời gian để suy nghĩ về mối quan hệ. Mình đã cảm thấy rằng cậu ỉ i vào tình cảm mình dành cho cậu nên cậu cứ vô tư mà làm mình tổn thương ở những cuộc cãi nhau sau này. 
-                        Mình đã đau lắm, thật đó. Nhưng mình hiểu cậu cũng đang rất khó khăn với những shadow trong chính bản thân cậu.</p>
+                    <p>Trong 1 năm vừa rồi, hành trình của mình khá dài, không biết bắt đầu từ đâu nữa, có thể là tháng 4 đi ha, ngày tụi mình chia tay - khuya 4/4 sáng sớm 5/4. Trước khi chia tay, mình đã khóc rất nhiều, khóc mỗi đêm. Mình khóc vì kiệt sức, khóc vì mệt mỏi, khóc vì bất lực. Mình thừa biết mối quan hệ tụi mình có vấn đề nhưng mình không thể giải thích thành lời, chỉ là trong lòng mình có 1 giọng nói lặp đi lặp lại mỗi ngày: Mối quan hệ này thực sự không ổn. Mình đã không biết bao nhiêu lần suy nghĩ về những lần tụi mình cãi nhau nhưng không giải quyết được vấn đề, không biết bao nhiêu lần nhìn TA luẩn quẩn trong cái vết thương chết dở kia, 2 đứa dần trở nên xa cách, những cuộc trò chuyện không còn vui vẻ hào hứng, và GB cảm nhận là mqh này sẽ vỡ nếu tiếp tục như này. Về bản thân mình lúc đó, mình focus hoàn toàn vào TA, mình không thể cảm nhận được bản thân mình thật sự muốn gì cần gì, mình không muốn giao tiếp với mọi người, mình chỉ muốn học thật nhanh để về với TA, nhma như này nó ko healthy chút nào, đây không phải là Gia Bảo. Mình thực sự không muốn 1 cuộc sống như vậy, mình muốn cả 2 đứa cùng nhau phát triển, khám phá, ngắm nhìn thế giới cùng nhau, mình cũng mong muốn tụi mình sẽ lại là 2 cục tích cực như cách tụi mình va vào nhau trước đó. Và mình cũng cảm nhận được rằng nếu tiêu cực xâm chiếm 2 đứa như thế thì mqh sẽ càng ngày càng toxic, mình lại càng không muốn người mình yêu đau khổ mà 1 mình mình vui vẻ được. Trực giác của 1 người từng trải qua đổ vỡ nặng nề khiến Gbao không thể làm lơ cái cảm giác đó (vì trước đó cái kịch bản cũng gần giống vậy, ko hoàn toàn giống nhưng cái cảm giác nó giống đến đáng sợ) và thế là GB quyết định chia tay. Gbao đã nghĩ là Gbao coi TA là chốn mình yên để tìm về, nhưng không có ngược lại, vì TA đã từng nói, tình yêu của Gbao không thể chữa lành cho TA. À 1 cái nữa đó là việc TA không thể chấp nhận quá khứ của GB. Dù mình hiểu, TA đã rất cố gắng, nhưng ở thời điểm cả 2 đều mang quá nhiều tổn thương mà còn ở với nhau thì khá khó để mqh này có tương lai. Mình đã cảm thấy mình cần phải dừng lại lúc đó để thật sự tìm lại chính mình, để cả 2 có thời gian để suy nghĩ về mối quan hệ. Mình đã cảm thấy rằng cậu ỉ i vào tình cảm mình dành cho cậu nên cậu cứ vô tư mà làm mình tổn thương ở những cuộc cãi nhau sau này. Mình đã đau lắm, thật đó. Nhưng mình hiểu cậu cũng đang rất khó khăn với những shadow trong chính bản thân cậu.</p>
                 </div>
 
-                <div class="page">
-                    <p>Thời gian sau đó, mình cố gắng học, rồi thi cử, điểm cuối kì không quá cao đợt tháng 6 nhưng mình tự hào vì mình đã cố gắng xoay sở mọi thứ thật tốt. Mình đã không tính về đợt tháng 7 đâu vì mình sợ không thể ngăn bản thân mình chạy đi tìm cậu lần nữa, bởi vì, mình cực kì hi vọng rằng cậu sẽ gỡ block và đi tìm mình, mở lòng với mình để hàn gắn mqh của 2 đứa. Còn đợt tháng 6, ngày 5.6 mình đã cực kì mong 1 câu chúc sinh nhật từ cậu, nhưng cuối cùng ước mơ cũng chỉ là mơ ước. Sau khi mình thi xong và đi làm 1 khoảng thời gian ngắn, mình đã nghĩ đến việc mua chiếc đồng hồ tặng cậu vào ngày tốt nghiệp. Mình đã băn khoăn rất nhiều đêm không biết cậu nhận chiếc đồng hồ sẽ cảm thấy thế nào nhỉ, sẽ vui hay buồn? Cậu có ghét mình không, có nhận được chiếc đồng hồ hay đem nó tặng cho người khác? Hay chỉ đơn giản là cất ở 1 góc ko đụng vào? Mình đã nghĩ đến ngày cậu sang Nhật đi làm, đeo chiếc đồng hồ trên tay, đồng nghiệp khen chiếc đồng hồ đẹp, cậu có vui không nhỉ? Vô vàn viễn cảnh hiện lên trong đầu mình, và càng ngày mình càng vẽ nên nhiều kịch bản khác nhau khi cậu nhận đồng hồ. Mình cũng sợ rằng cậu không muốn nhận nên đã nhiều lần mình không tính tặng, cuối cùng mình vẫn quyết định mua, vì đơn giản mình biết cậu rất thích đồng hồ, và mình thấy cậu có ít đồng hồ nên mình tặng thêm =)) 
-</p>
-                </div>
+                <div class="page"><p>Nội dung trang 3...</p></div>
+                <div class="page"><p>Nội dung trang 4...</p></div>
+                <div class="page"><p>Nội dung trang 5...</p></div>
+                <div class="page"><p>Nội dung trang 6...</p></div>
+                <div class="page"><p>Nội dung trang 7...</p></div>
+                <div class="page"><p>Nội dung trang 8...</p></div>
+                <div class="page"><p>Nội dung trang 9...</p></div>
 
                 <div class="page">
-                    <p>Sau đó cuối tháng 7, mình về VN, mình đã rất cố gắng trong việc ngăn cản bản thân mình chạy đi tìm cậu vì phần nhiều, mình biết là cậu sẽ không gặp, và mình, thật sự cực kì sợ cảm giác bị từ chối. Có thể nói sau lần níu kéo đầu tiên mình đã tự hỏi tại sao người đi níu kéo hàn gắn mối quan hệ luôn luôn là mình? Mình đã có cảm giác mình luôn chạy theo mối quan hệ và mình thật sự kiệt sức với cảm giác đó. Mình biết, cậu đã cố níu kéo mình hôm ngày 5.4, và mình đã hi vọng sau khi email cho cậu, tụi mình sẽ có 1 buổi hẹn (dĩ nhiên buổi đó cậu hẹn), nhưng rồi mình cũng lên máy bay bay sang Úc với bao nhiêu nỗi niềm còn dang dở. Mình biết, tự mình hi vọng rồi tự mình thất vọng, cậu chả làm gì cả. 
-Sau khi qua lại Úc, mình có va vào 1 video youtube tên là “Tìm lại chính mình”, đây cũng là cơ duyên mình biết đến chị Vy, chị là love coach về hẹn hò. Và mình đã tìm đến chị với mục đích là manifest người yêu cũ quay lại. Nghe buồn cười, nhưng thật đấy, lúc đó giả dụ cậu nhắn nói chuyện lại chắc mình sẽ vui dữ lắm, có thể gọi là trên cả tuyệt vời. Nhưng hiện thực luôn tàn khốc hơn so với trí tưởng tượng của mình. Hoặc do mình ảo phim ngắn nhiều quá. Cậu có thể không tin nhưng mình đã làm bao nhiêu trò ảo ma trên tiktok rồi instagram để manifest lại mqh tụi mình, coi bài rồi coi tử vi rồi dò cái này cái nọ, đọc thần chú rồi mở subliminals các kiểu… Và mình nhận ra vấn đề nằm ở bản thân mình rằng, mình không biết cách yêu bản thân, chưa từng hiểu bản thân nên không thể kết nối với mqh tụi mình như cách mình muốn. Đây cũng là 1 trong những nguyên nhân gây nên cái “không để tâm” như cậu nói. Mình đã rất cố gắng để tâm, nhưng sẽ có phần trăm miss thông tin, miss những cảm xúc có thể gọi là quan trọng. Bởi vì mình không kết nối được với bản thân mình. Thật ra khi quen cậu, mình thích ở cậu cái năng lượng cực kì nhẹ nhàng và cân bằng nên phần nào mình cũng bị ảnh hưởng, mình có cải thiện 1 chút chắc cậu cũng biết.
-</p>
-                </div>
-
-                <div class="page">
-                    <p>Quay lại câu chuyện về chị Vy, mình nhắc chị ấy trong bức thư này là vì chị ấy đã giúp mình làm rõ những phần cảm xúc ngầm, những phần tổn thương chưa được chữa lành đã hằn sâu trong tiềm thức và điều đó gây nên bi kịch cho mối quan hệ tụi mình dù mình bỏ tiền ra để mua khóa học của chị ấy. Mình biết được, mình ảnh hưởng rất nhiều tính cách từ mẹ, và cả sự la mắng, quát tháo của bà. Cái cách mình thể hiện với cậu ở 8 tháng đầu tiên là Gia Bảo của phiên bản tổn thương. Mình đã không biết cách thể hiện tình cảm, không biết cách bày tỏ mong muốn 1 cách lành mạnh và đây cũng là 1 trong những nguyên nhân gây rạn nứt của chúng mình. Mẹ mình luôn nice với mọi người nhưng những tiêu cực của mẹ mình luôn là người hứng, mẹ vô tư xả những cảm xúc đó lên mình và mẹ bảo vì mình là người thân là người nhà nên được phép thấy. Học chị Vy xong mình nhận ra đây không phải là 1 cách lành mạnh, nó có cách ôn hòa hơn nhiều, và mình chọn học nó. Học cách mềm mỏng, học cách chấp nhận sự thật, học cách yêu thương, học cách buông bỏ, học cách tin tưởng, học cách thấu hiểu, học cách nhìn nhận chính mình, học cách bao dung và chấp nhận chính mình. Tất cả, mình phải học lại từ đầu, và work out ra những tổn thương mình đã chịu đựng từ nhỏ đến lớn, những cảm xúc chưa bao giờ có lời giải, dẫn đến những tổn thương mình đã gây ra cho bản thân mình, cho mọi người xung quanh, và cả cho mối quan hệ chúng mình. Mình nhận ra mình đã ôm những tổn thương từ mqh với thịnh, đem vào những mqh sau này và đến mqh với cậu, mình đã nghĩ cậu sẽ chấp nhận con người của mình nên mình đã cho cậu thấy phiên bản raw nhất cũng là phiên bản nhiều tổn thương và unhealthy nhất. Đây cũng là 1 trong những lí do mình không thể cảm nhận tình yêu cậu dành cho mình 1 cách trọn vẹn và luôn cảm thấy không đủ. Vì bản thân mình không thể tự cho mình an toàn nên lúc nào mình cũng thấy bất an cả. 
-Gia Bảo của thời điểm đó, mình biết nó đã vô cùng tổn thương và đau khổ, nhưng tất cả những gì nó khao khát là được yêu thương, được chấp nhận. Lẽ ra mình nên tự chữa lành trước khi bước vào bất kì mqh nào, nhỉ? 
-</p>
-                </div>
-
-                <div class="page">
-                    <p>Mình đã nói cậu ỉ lại vào tình cảm mình dành cho cậu, nhưng mình cũng nhìn nhận lại rằng, 1 phần nào đó của mình cũng đã take you for granted, coi việc cậu nhận những tiêu cực của mình là hiển nhiên, là thể hiện cậu đang yêu mình và mình cũng đang yêu cậu khi mình cho cậu thấy con người mình 1 cách trần trụi đến thế. Sau này mình đã tự hỏi chính mình rằng: Gia Bảo ơi mày đang làm cái gì vậy? Mày đang xây dựng hay đang muốn phá hủy mối quan hệ này thế? - Mình bắt đầu nhìn nhận và suy nghĩ thật sự về mục tiêu mình muốn huớng tới trong 1 mối quan hệ, nó không còn là những cuộc cãi nhau vô nghĩa, thay vào đó là sự chia sẻ, thấu hiểu lẫn nhau; không còn toxic nhau, bắt nhau phải tiêu cực chung thì mới là yêu, thay vào đó là sự bình yên. Mình học chị Vy, học mọi thứ và mình dần cảm thấy bình yên với chính mình khi mình đối mặt với những tổn thương bên trong, không còn loạn, không còn né tránh, tâm mình cũng đỡ ồn ào hơn trước. Mình vui vì điều đó, thật sự rất biết ơn bản thân và vũ trụ đã cho mình cơ hội được học và được hiểu ra nhiều thứ.
-Bật mí cho cậu 1 thứ là mình chưa bao giờ ổn khi ở 1 mình, nó sẽ luôn đâu đó cảm giác khó chịu và bất an, bao nhiêu tiêu cực cứ thay nhay ùa lên nhảy trong đầu mình. Đứa trẻ chưa được chữa lành, phần cảm xúc bấy lâu nay mình kìm nén, ignore nó quậy mình những lúc như thế. Mình chưa từng cảm nhận được sự bình yên cho đến khi mình quen cậu, và với phiên bản tổn thương lúc đó, mình cảm thấy nghi ngờ và sợ hãi. Mình quen với việc bị quát, bị overthink over lo lắng, càu nhàu càm ràm, nên khi thấy được sự bình yên đó, mình đã lo sợ không biết khi nào sẽ mất đi thay vì tận hưởng. Rồi mình tự đánh mất sự bình yện của mqh luôn :))) phá thiệt. Thì đây cũng là lí do để giải thích cho việc những mối quan hệ cũ hay gần nhất là mối quan hệ với người cậu không muốn nhắc tên nhất. Nó là đâu đó hỗn loạn từ đợt tổn thương với thịnh kéo sang, nó có sự quen thuộc của việc quen bị đối xử tệ, nó cũng có sự mới lạ vì đây là 1 kiểu người mình chưa gặp bao giờ. Nó kiểu combo vừa lạ vừa tệ mà mình của thời điểm đó không hề nhận ra cũng thiếu kỉ luật để ngta làm tổn thương mình. Sau này nhận ra những hành vi khó hiểu lúc đó rồi mình thật sự nghĩ rằng, nếu không ai chấp nhận được quá khứ của mình thì tự mình sẽ chấp nhận mình. 
-</p>
-                </div>
-
-                <div class="page">
-                    <p>Mình đã nhìn nhận lại mối quan hệ rất nhiều lần và mình không hối hận khi mình đã rời đi ngay thời điểm đó. Trực giác mách bảo rằng nếu tiếp tục quen tụi mình sẽ khó mà học được những bài học và nhìn nhận rõ ràng như hiện tại (điều này mình cảm thấy nó work với mình, về phía cậu mình không chắc lắm). Mình cũng chưa từng hối hận mình đã dành rất rất nhiều tình cảm cho cậu, nhiều đến nỗi khi chia tay mình sẽ tiếp tục yêu cậu cho đến khi không thể yêu được nữa. Ngay lúc chia tay, mình đã cược mọi thứ, cược cả tình cảm mình dành cho cậu và cả mối quan hệ này, 1 là mình học được bài học, phát triển bản thân và tiếp tục manifest mối quan hệ, 2 là mình ôm thêm 1 tổn thương vô cùng lớn thứ 2 trong cuộc đời và có thể nó sẽ đeo bám mình đến mãi về sau (fun fact là mình set deadline mình quên cậu vào 2029 với thằng Đức :>>). Và thời gian đã cho mình thấy, mình đã cược coi như là ổn, đôi khi kết quả khó nói nhưng mình đã tìm được chính mình, thấy 1 Gia Bảo dịu dàng hơn và ôn hòa hơn rất nhiều. Mình thật sự tự hào vì trong năm 2025 đây có thể là thành quả tuyệt vời nhất mình đạt được, nhờ nó mà mình đã cải thiện rất nhiều thứ, có thể nói là toàn bộ cuộc sống mình thay đổi tích cực rõ rệt. Và mình thật sự biết ơn bản thân, biết ơn mọi thứ và biết ơn cả mối quan hệ tụi mình đã là 1 phần trong sự trưởng thành của mình. Mình cũng nhận ra rằng tụi mình bị miscommunicate with nhau khá nhiều (ít nhất là phía mình, mình biết mình đã không giao tiếp hiệu quả), và mình đã cố gắng thay đổi điều đó, gần nhất là với gia đình, đồng nghiệp, xa hơn chút là với bạn bè và người quen, mình cũng cảm nhận được mọi thứ đang dần tích cực hơn trước. 
-</p>
-                </div>
-
-                <div class="page">
-                    <p>Có lẽ cậu đã quên, trong email hồi tháng 7 mình có nói mình sẽ cố gắng không tìm lại cậu bất kì 1 lần nào nữa. Mình nghĩ đây là việc mình có thể cố gắng làm để tôn trọng mối quan hệ và tôn trọng bản thân mình nên mình mới chọn cách hỏi Nhật cậu có muốn gặp không. Mình cũng sợ, sợ lại bị từ chối, sợ cậu lại trách mình, sợ cái cảm giác mình đáng bị trừng phạt như cách mẹ mình làm với mình. Đúng, mình đã bị nỗi sợ làm cho chùn bước và mình chấp nhận điều đó. Một lí do khác là mình tin nếu cậu muốn cậu sẽ chủ động kiếm mình, còn nếu không thì là không muốn, mình cực kì muốn cậu thử tìm mình, để mình cảm giác rằng cậu cũng đang hướng về mình. Mà cậu đã không muốn thì mình không lẽ cứ chạy theo làm cái đuôi bám theo cậu như thế, mình không làm được nữa, cậu có những thước đo và giới hạn riêng thì mình cũng thế. Cái nỗi sợ từ lần đầu níu kéo cậu đã bị từ chối không biết bao lần mình vẫn còn chưa deal xong với nó, nó vẫn còn ở đó, không nhiều như trước nhưng đủ để quậy mình những lúc ở 1 mình. Đôi khi việc mình liên tục muốn cậu, còn cậu thì không muốn mình, điều đó còn khiến mình cảm thấy mình đang làm phiền cuộc sống của cậu vậy, mặt dày không biết xấu hổ, chạy theo đàn ông… kiểu vậy, nó khiến mình thấy mình thừa thải lắm. Còn việc mình nhẫn nhịn thì thằng Nhật may mắn nó gặp mình lúc mình đã học gần xong khóa học của chị Vy nên mình đã hành xử với nó như thế, nó cũng hứa sẽ đền lại chiếc đồng hồ mới nên mình cũng cảm thấy đỡ hơn. 
-.</p>
-                </div>
-
-                <div class="page">
-                    <p>Mình ngưỡng mộ cậu nhiều hơn cậu nghĩ, cậu học giỏi, tương lai sáng hơn mặt trời, cách cậu đối xử với mọi người… (mình đã học được rất nhiều từ cậu) và 1 câu nói của cậu mình khá thích là “đối với những người thân với mình, mình lại càng không nên tổn thương họ”. Mình đã suy nghĩ rất nhiều về câu nói này và nó đã giúp mình thay đổi khá nhiều trong thời gian vừa rồi. Mình cũng đã từng nghĩ nếu sau này cậu giỏi hơn nữa thì tụi mình có còn chung đường với nhau không, mình có còn hiểu về những lí tưởng hay những suy nghĩ hay cảm xúc của cậu nữa không? Mình của trước đây sẽ lo sợ, níu giữ mối quan hệ, tìm mọi cách để níu giữ cậu bên cạnh mình. Nhưng mình của bây giờ sẽ chọn cố gắng trở thành phiên bản tốt hơn của mình mỗi ngày để tụi mình có thể luôn cùng hướng, cùng mục tiêu; chỉ tiếc là không còn cậu nữa. 
-Mình đã từng nghĩ nếu như mình nhận ra  những điều này sớm hơn thì có phải mọi chuyện sẽ tốt hơn không, tụi mình sẽ quen nhau vui vẻ lành mạnh hơn, hay ti tỉ kịch bản “biết trước đã giàu”... nhưng giờ mình không muốn gây cho bản thân mình bất kì 1 sự hối tiếc nào cả, nên mình sẽ chọn cách đón nhận mọi thứ như cách nó xảy ra. Đôi khi đó là những bài học, là những món quà vũ trụ gửi đến để mình học, rồi trở nên mạnh mẽ hơn. Những mối quan hệ cũ, mình cảm nhận rằng đó không phải là tình yêu lành mạnh, nó nhiều hơn cả là sự bấu víu hay đi đòi hỏi những thứ mình thiếu thốn, cảm giác hành xác nhau mà chịu đựng dữ lắm, nó là yêu nhưng không hoàn toàn là yêu. Còn mình với cậu, không biết với cậu là gì nhưng với mình nó là tình yêu, là động lực để mình phát triển, và dù sau này có cậu hay không, nó vẫn sẽ đâu đó là động lực để mình thực hiện ước mơ của mình. Mình mong muốn trao đi giá trị cho cộng đồng hơn là giữ cho riêng mình, và giá trị đó thể hiện qua sản phẩm cụ thể gì thì mình vẫn còn chưa rõ.
-Mình luôn tin tưởng cậu, chưa bao giờ nghi ngờ về tương lai của cậu, từ khi làm bạn đến bây giờ, chưa bao giờ nó tụt xuống 99.99%. Mình luôn tin tưởng cậu sẽ là người mình dựa vào, là người chồng yêu thương mình nhất, là người bố tuyệt vời nhất của con mình (nhưng mình chỉ muốn có con trai thôi vì mình không muốn có công chúa thứ 2 trong nhà :>>). Mình luôn thấy được cậu luôn cố gắng để cho mình cuộc sống tốt hơn, nên mình vẫn luôn động viên và ủng hộ mọi quyết định cậu đưa ra. Những lí tưởng, ước mơ của cậu, mình cũng vô số lần tưởng tượng nó thành sự thật và mình vẫn luôn tin nó sẽ thành sự thật. Có đợt chia tay, mình đã nghĩ nếu tụi mình không quay lại được thì 1 ngày nào đó cậu làm được 1 con AI tầm cỡ ChatGpt hoặc Claude thì mình sẽ sử dụng chúng cực kì thường xuyên, nó như là 1 cách để mình giao tiếp với cậu vậy, và somehow cậu cũng cảm nhận được tình cảm của mình ở 1 nơi xa xa cách nhau bằng 1 con AI. 
-Cậu hơn cả 1 người “đồng hành và quan sát”, có lẽ qua bức thư cậu cũng phần nào cảm nhận được. Có thể trước đây những giới hạn về suy nghĩ đã khiến mình khó có thể phân biệt và hiểu thật sự rõ ràng hoặc chỉ đơn giản, đó là góc nhìn của Gia Bảo còn tổn thương. Còn bây giờ thì mình cũng hiểu được kha khá thứ, và dù sớm dù muộn, mình tin mọi thứ đều đúng thời điểm, mình vẫn luôn tự hào vì bản thân mình đã nhận ra và đã cố gắng học rất hard core trong thời gian vừa rồi. 
-</p>
-                </div>
-
-                <div class="page">
-                    <p>Mình cũng đã thực tập 3 tháng ở 1 công ty của Singapore trong HCM với vị trí BA, sắp tới có thể chuyển trụ sở về Đà Nẵng và mình khá thích môi trường ở đây, nó cũng là 1 trong những nơi mình cân nhắc sau khi mình tốt nghiệp tháng 6 này. Sếp tốt lắm, đồng nghiệp cũng dễ thương và hỗ trợ mình rất nhiều, mỗi tội techlead với SA hơi cọc tính vì mấy anh 10 năm kinh nghiệm, hơi khó làm việc chút nhưng nhìn chung cũng oke, mình học được nhiều thứ ở đây lắm. Mình còn học mấy thứ về management consulting, giải case interview để thi vào big3 consultant McKinsey đồ đó, cũng vị trí BA luôn. Nói chung định hướng rõ ràng sẽ theo technical BA hay học tiếp master thì vẫn hơi mơ hồ, nhưng ít nhất mình đang cảm thấy mình phù hợp với vị trí này. Mình vẫn cần học và trải nghiệm nhiều hơn nữa, và mình mong muốn như z. 
-Và dù lựa chọn của cậu là gì, mình đều tôn trọng. Chỉ cần 1 trong 2 không muốn thì nó không thể là mối quan hệ. Nếu như đây thật sự là câu trả lời vũ trụ thật sự mong muốn mình phải đối mặt, mình chấp nhận. Có thể sẽ không quá dễ dàng, nhưng sau cơn mưa lúc nào sẽ có cầu vồng, còn có cả nắng nữa. Còn Hồ Châu Kiệt Luân với Hồ Châu Thiên Kim (có thể là Thiên Nhi), có vẻ chúng mình cũng cùng suy nghĩ, sẽ mang 1 hoặc 2 cái tên đó để đặt cho những đứa con của mình sau này, nên cậu yên tâm nhé. 
-Chúc cậu dù cho thế giới này có khắc nghiệt thế nào, cậu vẫn đâu đó tìm được sự bình yên cho chính mình. Mình tin rằng cậu sẽ luôn đủ trí tuệ và yêu thương để đưa ra những quyết định dẫn đến những bài học phụng sự cho hành trình trưởng thành của cậu. 
-Nếu cậu muốn biết rõ hơn về từng giai đoạn thay đổi cảm xúc của mình thì cứ request _bubblenosugar , cậu sẽ khá bất ngờ và mình cũng có 1 vài món quà nhỏ trong đó dành cho cậu.
-</p>
+                    <p>Mình cũng đã thực tập 3 tháng ở 1 công ty của Singapore trong HCM với vị trí BA, sắp tới có thể chuyển trụ sở về Đà Nẵng và mình khá thích môi trường ở đây, nó cũng là 1 trong những nơi mình cân nhắc sau khi mình tốt nghiệp tháng 6 này. Sếp tốt lắm, đồng nghiệp cũng dễ thương và hỗ trợ mình rất nhiều, mỗi tội techlead với SA hơi cọc tính vì mấy anh 10 năm kinh nghiệm, hơi khó làm việc chút nhưng nhìn chung cũng oke, mình học được nhiều thứ ở đây lắm. Mình còn học mấy thứ về management consulting, giải case interview để thi vào big3 consultant McKinsey đồ đó, cũng vị trí BA luôn. Nói chung định hướng rõ ràng sẽ theo technical BA hay học tiếp master thì vẫn hơi mơ hồ, nhưng ít nhất mình đang cảm thấy mình phù hợp với vị trí này. Mình vẫn cần học và trải nghiệm nhiều hơn nữa, và mình mong muốn như z. Và dù lựa chọn của cậu là gì, mình đều tôn trọng. Chỉ cần 1 trong 2 không muốn thì nó không thể là mối quan hệ. Nếu như đây thật sự là câu trả lời vũ trụ thật sự mong muốn mình phải đối mặt, mình chấp nhận. Có thể sẽ không quá dễ dàng, nhưng sau cơn mưa lúc nào sẽ có cầu vồng, còn có cả nắng nữa. Còn Hồ Châu Kiệt Luân với Hồ Châu Thiên Kim (có thể là Thiên Nhi), có vẻ chúng mình cũng cùng suy nghĩ, sẽ mang 1 hoặc 2 cái tên đó để đặt cho những đứa con của mình sau này, nên cậu yên tâm nhé. Chúc cậu dù cho thế giới này có khắc nghiệt thế nào, cậu vẫn đâu đó tìm được sự bình yên cho chính mình. Mình tin rằng cậu sẽ luôn đủ trí tuệ và yêu thương để đưa ra những quyết định dẫn đến những bài học phụng sự cho hành trình trưởng thành của cậu. Nếu cậu muốn biết rõ hơn về từng giai đoạn thay đổi cảm xúc của mình thì cứ request _bubblenosugar , cậu sẽ khá bất ngờ và mình cũng có 1 vài món quà nhỏ trong đó dành cho cậu.</p>
                 </div>
 
             </div>
@@ -213,7 +180,6 @@ Nếu cậu muốn biết rõ hơn về từng giai đoạn thay đổi cảm x�
         const pages = document.querySelectorAll('.page');
         const cardContainer = document.getElementById("mainCard");
         const overlay = document.getElementById("overlay");
-        const scrollArea = document.getElementById('scrollArea');
         let currentPage = 0;
 
         function startLetter() {
@@ -224,11 +190,14 @@ Nếu cậu muốn biết rõ hơn về từng giai đoạn thay đổi cảm x�
         }
 
         function updateDisplay() {
-            pages.forEach((p, i) => p.classList.toggle('active', i === currentPage));
+            pages.forEach((p, i) => {
+                p.classList.toggle('active', i === currentPage);
+                // Đưa thanh cuộn về đầu trang mỗi khi chuyển trang
+                if (i === currentPage) p.scrollTop = 0;
+            });
             document.getElementById('pageIndicator').innerText = `${currentPage + 1} / ${pages.length}`;
             document.getElementById('prevBtn').disabled = (currentPage === 0);
             document.getElementById('nextBtn').disabled = (currentPage === pages.length - 1);
-            scrollArea.scrollTop = 0;
         }
 
         function changePage(step) {
