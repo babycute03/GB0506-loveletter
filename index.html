@@ -1,8 +1,9 @@
+<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thư Gửi Gia Bảo</title>
+    <title>Thư Gửi Thiên Anh</title>
     <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -70,8 +71,21 @@
             overflow-y: auto; padding-right: 15px; margin-bottom: 10px; z-index: 1;
         }
 
-        .card-content::-webkit-scrollbar { width: 3px; }
-        .card-content::-webkit-scrollbar-thumb { background: #d8c3b8; border-radius: 10px; }
+        /* --- TÙY CHỈNH SCROLL BAR --- */
+        .card-content::-webkit-scrollbar {
+            width: 5px;
+        }
+        .card-content::-webkit-scrollbar-track {
+            background: rgba(216, 195, 184, 0.1);
+            border-radius: 10px;
+        }
+        .card-content::-webkit-scrollbar-thumb {
+            background: #d8c3b8;
+            border-radius: 10px;
+        }
+        .card-content::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
+        }
 
         /* Trang nội dung */
         .page { display: none; animation: fadeIn 0.8s ease forwards; }
@@ -109,7 +123,7 @@
     </div>
 
     <audio id="bg-music" loop>
-        <source src="https://www.youtube.com/watch?v=f5IhGVICRjE&list=RDf5IhGVICRjE&start_radio=1" type="audio/mpeg">
+        <source src="https://audio.com/ledutu/audio/phep-mau-dan-ca-go-ost" type="audio/mpeg">
     </audio>
 
     <div class="card-container" id="mainCard">
@@ -157,7 +171,7 @@ Bật mí cho cậu 1 thứ là mình chưa bao giờ ổn khi ở 1 mình, nó 
                 </div>
 
                 <div class="page">
-                    <p>Mình đã nhìn nhận lại mối quan hệ rất nhiều lần và mình không hối hận khi mình đã rời đi ngay thời điểm đó. Trực giác mách bảo rằng nếu tiếp tục quen tụi mình sẽ khó mà học được những bài học và nhìn nhận rõ ràng như hiện tại (điều này mình cảm thấy nó work với mình, về phía cậu mình không chắc lắm). Mình cũng chưa từng hối hận mình đã dành rất rất nhiều tình cảm cho cậu, nhiều đến nỗi khi chia tay mình sẽ tiếp tục yêu cậu cho đến khi không thể yêu được nữa. Ngay lúc chia tay, mình đã cược mọi thứ, cược cả tình cảm mình dành cho cậu và cả mối quan hệ này, 1 là mình học được bài học, phát triển bản thân và tiếp tục manifest mối quan hệ, 2 là mình ôm thêm 1 tổn thương vô cùng lớn thứ 2 trong cuộc đời và có thể nó sẽ đeo bám mình đến mãi về sau (fun fact là mình set deadline mình quên cậu vào 2029 với thằng Đức :>>). Và thời gian đã cho mình thấy, mình đã cược coi như là ổn, đôi khi kết quả khó nói nhưng mình đã tìm được chính mình, thấy 1 Gia Bảo dịu dàng hơn và ôn hòa hơn rất nhiều. Mình thật sự tự hào vì trong năm 2025 đây có thể là thành quả tuyệt vời nhất mình đạt được, nhờ nó mà mình đã cải thiện rất nhiều thứ, có thể nói là toàn bộ cuộc sống mình thay đổi tích cực rõ rệt. Và mình thật sự biết ơn bản thân, biết ơn mọi thứ và biết ơn cả mối quan hệ tụi mình đã là 1 phần trong sự trưởng thành của mình. Mình cũng nhận ra rằng tụi mình bị miscommunicate với nhau khá nhiều (ít nhất là phía mình, mình biết mình đã không giao tiếp hiệu quả), và mình đã cố gắng thay đổi điều đó, gần nhất là với gia đình, đồng nghiệp, xa hơn chút là với bạn bè và người quen, mình cũng cảm nhận được mọi thứ đang dần tích cực hơn trước. 
+                    <p>Mình đã nhìn nhận lại mối quan hệ rất nhiều lần và mình không hối hận khi mình đã rời đi ngay thời điểm đó. Trực giác mách bảo rằng nếu tiếp tục quen tụi mình sẽ khó mà học được những bài học và nhìn nhận rõ ràng như hiện tại (điều này mình cảm thấy nó work với mình, về phía cậu mình không chắc lắm). Mình cũng chưa từng hối hận mình đã dành rất rất nhiều tình cảm cho cậu, nhiều đến nỗi khi chia tay mình sẽ tiếp tục yêu cậu cho đến khi không thể yêu được nữa. Ngay lúc chia tay, mình đã cược mọi thứ, cược cả tình cảm mình dành cho cậu và cả mối quan hệ này, 1 là mình học được bài học, phát triển bản thân và tiếp tục manifest mối quan hệ, 2 là mình ôm thêm 1 tổn thương vô cùng lớn thứ 2 trong cuộc đời và có thể nó sẽ đeo bám mình đến mãi về sau (fun fact là mình set deadline mình quên cậu vào 2029 với thằng Đức :>>). Và thời gian đã cho mình thấy, mình đã cược coi như là ổn, đôi khi kết quả khó nói nhưng mình đã tìm được chính mình, thấy 1 Gia Bảo dịu dàng hơn và ôn hòa hơn rất nhiều. Mình thật sự tự hào vì trong năm 2025 đây có thể là thành quả tuyệt vời nhất mình đạt được, nhờ nó mà mình đã cải thiện rất nhiều thứ, có thể nói là toàn bộ cuộc sống mình thay đổi tích cực rõ rệt. Và mình thật sự biết ơn bản thân, biết ơn mọi thứ và biết ơn cả mối quan hệ tụi mình đã là 1 phần trong sự trưởng thành của mình. Mình cũng nhận ra rằng tụi mình bị miscommunicate with nhau khá nhiều (ít nhất là phía mình, mình biết mình đã không giao tiếp hiệu quả), và mình đã cố gắng thay đổi điều đó, gần nhất là với gia đình, đồng nghiệp, xa hơn chút là với bạn bè và người quen, mình cũng cảm nhận được mọi thứ đang dần tích cực hơn trước. 
 </p>
                 </div>
 
@@ -187,42 +201,3 @@ Nếu cậu muốn biết rõ hơn về từng giai đoạn thay đổi cảm x�
             <div class="pagination">
                 <button class="nav-btn" id="prevBtn" onclick="changePage(-1)">← Trước</button>
                 <span class="page-num" id="pageIndicator">1 / 10</span>
-                <button class="nav-btn" id="nextBtn" onclick="changePage(1)">Sau →</button>
-            </div>
-
-            <div class="signature">- Chloe -</div>
-        </div>
-    </div>
-
-    <script>
-        const audio = document.getElementById("bg-music");
-        const pages = document.querySelectorAll('.page');
-        const cardContainer = document.getElementById("mainCard");
-        const overlay = document.getElementById("overlay");
-        const scrollArea = document.getElementById('scrollArea');
-        let currentPage = 0;
-
-        function startLetter() {
-            audio.play().catch(e => console.log("Yêu cầu nhấn nút để phát nhạc."));
-            overlay.style.opacity = '0';
-            setTimeout(() => { overlay.style.visibility = 'hidden'; }, 1000);
-            cardContainer.classList.add("show-card");
-        }
-
-        function updateDisplay() {
-            pages.forEach((p, i) => p.classList.toggle('active', i === currentPage));
-            document.getElementById('pageIndicator').innerText = `${currentPage + 1} / ${pages.length}`;
-            document.getElementById('prevBtn').disabled = (currentPage === 0);
-            document.getElementById('nextBtn').disabled = (currentPage === pages.length - 1);
-            scrollArea.scrollTop = 0;
-        }
-
-        function changePage(step) {
-            currentPage += step;
-            updateDisplay();
-        }
-
-        updateDisplay();
-    </script>
-</body>
-</html>
